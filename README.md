@@ -1,2 +1,200 @@
-# School-Dashboard
 
+# School-Dashboard
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <title>School Dashboard</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/css/bootstrap.min.css" rel="stylesheet" />
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background: #f8f9fa;
+        }
+        .sidebar {
+            height: 100vh;
+            background: #343a40;
+            color: #fff;
+            padding: 1rem;
+            position: fixed;
+            width: 220px;
+            overflow-y: auto;
+        }
+        .sidebar a {
+            color: #ddd;
+            text-decoration: none;
+            display: block;
+            margin: 0.5rem 0;
+        }
+        .sidebar a:hover {
+            background: #495057;
+            color: #fff;
+        }
+        .main-content {
+            margin-left: 240px;
+            padding: 1rem;
+        }
+        .card-stat {
+            text-align: center;
+            padding: 1rem;
+            border-radius: 8px;
+            background: #fff;
+            box-shadow: 0 0 5px rgba(0,0,0,0.1);
+        }
+        .calendar {
+            background: #fff;
+            border-radius: 8px;
+            padding: 1rem;
+            box-shadow: 0 0 5px rgba(0,0,0,0.1);
+        }
+        .chart-container {
+            background: #fff;
+            border-radius: 8px;
+            padding: 1rem;
+            margin-bottom: 1rem;
+            box-shadow: 0 0 5px rgba(0,0,0,0.1);
+        }
+    </style>
+</head>
+<body>
+
+    <div class="sidebar">
+        <h4>Caz Brain</h4>
+        <a href="#">Dashboard</a>
+        <a href="#">Theme</a>
+        <a href="#">Language</a>
+        <a href="#">Administrator</a>
+        <a href="#">Front Office</a>
+        <a href="#">Human Resource</a>
+        <a href="#">Teacher</a>
+        <a href="#">Manage Leave</a>
+        <a href="#">Academic</a>
+        <a href="#">Class Routine</a>
+        <a href="#">Guardian</a>
+        <a href="#">Manage Student</a>
+        <a href="#">Attendance</a>
+        <a href="#">Online Exam</a>
+        <a href="#">Generate Card</a>
+        <a href="#">Manage Exam</a>
+        <a href="#">Exam Mark</a>
+        <a href="#">Promotion</a>
+        <a href="#">Certificate</a>
+        <a href="#">Inventory</a>
+        <a href="#">Library</a>
+        <a href="#">Transport</a>
+        <a href="#">Hostel</a>
+        <a href="#">Message</a>
+        <a href="#">Mail & SMS</a>
+        <a href="#">Complain</a>
+        <a href="#">Announcement</a>
+        <a href="#">Scholarship</a>
+        <a href="#">Event</a>
+        <a href="#">Payroll</a>
+        <a href="#">Accounting</a>
+        <a href="#">Report</a>
+        <a href="#">Media Gallery</a>
+    </div>
+
+    <div class="main-content">
+        <div class="d-flex justify-content-between align-items-center mb-4">
+            <div>
+                <select class="form-select d-inline-block w-auto">
+                    <option>Select School</option>
+                </select>
+                <input type="text" class="form-control d-inline-block w-auto" placeholder="Global Search"/>
+                <select class="form-select d-inline-block w-auto">
+                    <option>Select Session Year</option>
+                </select>
+                <button class="btn btn-primary">Update</button>
+            </div>
+        </div>
+
+        <div class="d-flex gap-3 mb-4">
+            <div class="card-stat col bg-light">Students <br> 8</div>
+            <div class="card-stat col bg-light">Guardian <br> 2</div>
+            <div class="card-stat col bg-light">Teacher <br> 9</div>
+            <div class="card-stat col bg-light">Employee <br> 1</div>
+            <div class="card-stat col bg-light">Income <br> ₹0.00</div>
+            <div class="card-stat col bg-light">Expenditure <br> ₹0.00</div>
+        </div>
+
+        <div class="chart-container">
+            <h5>School Statistics</h5>
+            <canvas id="schoolChart"></canvas>
+        </div>
+
+        <div class="calendar mb-4">
+            <h5>Calendar - September 2025</h5>
+            <table class="table table-bordered text-center">
+                <thead>
+                    <tr>
+                        <th>Sun</th><th>Mon</th><th>Tue</th><th>Wed</th><th>Thu</th><th>Fri</th><th>Sat</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr><td></td><td>1</td><td>2</td><td>3</td><td>4</td><td style="background:#f0f0f0;">5</td><td>6</td></tr>
+                    <tr><td>7</td><td>8</td><td>9</td><td>10</td><td>11</td><td>12</td><td>13</td></tr>
+                    <tr><td>14</td><td>15</td><td>16</td><td>17</td><td>18</td><td>19</td><td>20</td></tr>
+                    <tr><td>21</td><td>22</td><td>23</td><td>24</td><td>25</td><td>26</td><td>27</td></tr>
+                    <tr><td>28</td><td>29</td><td>30</td><td></td><td></td><td></td><td></td></tr>
+                </tbody>
+            </table>
+        </div>
+
+        <div class="row">
+            <div class="col-md-6 chart-container">
+                <h5>Messages</h5>
+                <canvas id="messageChart"></canvas>
+            </div>
+            <div class="col-md-6 chart-container">
+                <h5>User Type</h5>
+                <canvas id="userTypeChart"></canvas>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const ctx = document.getElementById('schoolChart').getContext('2d');
+        const schoolChart = new Chart(ctx, {
+            type: 'bar',
+            data: {
+                labels: ['Class', 'Student', 'Teacher', 'Employee', 'Income', 'Expenditure'],
+                datasets: [{
+                    label: 'Count',
+                    data: [100, 60, 40, 20, 0, 0],
+                    backgroundColor: ['#4e73df', '#1cc88a', '#36b9cc', '#f6c23e', '#858796', '#e74a3b']
+                }]
+            }
+        });
+
+        const ctxMsg = document.getElementById('messageChart').getContext('2d');
+        const messageChart = new Chart(ctxMsg, {
+            type: 'line',
+            data: {
+                labels: ['New', 'Inbox', 'Send', 'Draft', 'Trash'],
+                datasets: [{
+                    label: 'Messages',
+                    data: [0, 0, 0, 0, 0],
+                    borderColor: '#4e73df',
+                    fill: false
+                }]
+            }
+        });
+
+        const ctxUser = document.getElementById('userTypeChart').getContext('2d');
+        const userTypeChart = new Chart(ctxUser, {
+            type: 'doughnut',
+            data: {
+                labels: ['Teacher', 'Super Admin', 'Admin', 'Guardian', 'Student'],
+                datasets: [{
+                    data: [30, 5, 5, 20, 40],
+                    backgroundColor: ['#4e73df', '#1cc88a', '#36b9cc', '#f6c23e', '#e74a3b']
+                }]
+            }
+        });
+    </script>
+
+</body>
+</html>
